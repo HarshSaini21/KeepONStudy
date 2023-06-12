@@ -1,12 +1,12 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import HomeScreen from './screens/HomeScreen';
-import SignInScreen from './screens/SignInScreen'
-import DashboardScreen from './screens/DashboardScreen';
-import firebase from 'firebase';
+import { createSwitchNavigator, createAppContainer } from "react-navigation";
+import * as React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import HomeScreen from "./screens/HomeScreen";
+import SignInScreen from "./screens/SignInScreen";
+import AppDrawerNavigator from "./components/drawernavigator";
+import firebase from "firebase";
 import { firebaseConfig } from "./config";
+
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -14,21 +14,17 @@ if (!firebase.apps.length) {
   firebase.app();
 }
 
-const Stack = createStackNavigator ();
-export default class App extends React.Component{
-  render(){
-    return(
-        <NavigationContainer>
-          <Stack.Navigator
-          initialRouteName = "HomeScreen">
-            <Stack.Screen name='HomeScreen' component={HomeScreen}/>
-            <Stack.Screen name='SignInScreen' component={SignInScreen}/>
-            <Stack.Screen name='DashboardScreen' component={DashboardScreen}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      
-        
-        
-    )
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
   }
 }
+
+const SwitchNav = createSwitchNavigator({
+  HomeScreen: { screen: HomeScreen },
+  SignInScreen: { screen: SignInScreen },
+  Drawer: { screen: AppDrawerNavigator },
+  
+});
+
+const AppContainer = createAppContainer(SwitchNav);

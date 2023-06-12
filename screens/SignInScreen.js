@@ -14,10 +14,8 @@ import {
   Alert,
 } from "react-native";
 import firebase from "firebase";
-require('@firebase/firestore');
-require('@firebase/auth');
-
-
+require("@firebase/firestore");
+require("@firebase/auth");
 
 export default class SignInScreen extends React.Component {
   constructor(props) {
@@ -31,28 +29,27 @@ export default class SignInScreen extends React.Component {
       email: "",
       password: "",
       confirmpassword: "",
-      class: 0,
-      board: "",
+      class: 9,
     };
   }
 
   userSignUp = (email, password, confirmpassword) => {
-    console.log("fucntion succesfully called!1")
+    console.log("fucntion succesfully called!1");
     if (password !== confirmpassword) {
-      console.log("Pasword doesnot match.")
+      console.log();
       return Alert.alert("Pasword doesnot match..");
     } else {
-      console.log("registering users")
+      console.log("registering users");
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          console.log("succesfully registered!!")
+          console.log("succesfully registered!!");
           firebase.firestore().collection("users").add({
             name: this.state.name,
             email: this.state.email,
             class: this.state.class,
-            board: this.state.board,
+            
           });
           return Alert.alert("User Added Successfully", "", [
             {
@@ -63,6 +60,19 @@ export default class SignInScreen extends React.Component {
         });
     }
   };
+  /*userSignIn = (emailId, password) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(emailId, password)
+      .then(() => {
+        console.log("Successfully signed in");
+        this.props.navigation.navigate("DashboardScreen");
+      })
+      .catch((error) => {
+        console.log("Error signing in")
+        return Alert.alert(error);
+      });
+  };*/
   showModal = () => {
     return (
       <Modal
@@ -75,7 +85,7 @@ export default class SignInScreen extends React.Component {
             style={styles.textInput3}
             placeholder="Email"
             placeholderTextColor={"grey"}
-            keyboardType={'email-address'}
+            keyboardType={"email-address"}
             onChangeText={(text) => {
               this.setState({ email: text });
             }}
@@ -92,17 +102,8 @@ export default class SignInScreen extends React.Component {
             style={styles.textInput3}
             placeholder="Class"
             placeholderTextColor={"grey"}
-            onChangeText={(text) => {
-              this.setState({ class: text });
-            }}
-          />
-          <TextInput
-            style={styles.textInput3}
-            placeholder="CBSE/ICSE/Other Boards"
-            placeholderTextColor={"grey"}
-            onChangeText={(text) => {
-              this.setState({ board: text });
-            }}
+            value={this.state.class}
+            disabled={true}
           />
 
           <TextInput
@@ -154,12 +155,6 @@ export default class SignInScreen extends React.Component {
         <View style={styles.container}>
           <View>{this.showModal()}</View>
           <Text style={styles.text}> Keep On Study </Text>
-          <TextInput
-          //style={styles.textInput}
-          //placeholder={"Ex: Rahul"}
-          //onChangeText={text => this.setState({ username: text })}
-          //placeholderTextColor={"grey"}
-          />
 
           <Text style={styles.text2}> Enter Email </Text>
 
@@ -182,7 +177,10 @@ export default class SignInScreen extends React.Component {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate("DashboardScreen")}
+            onPress={() => {
+              /*this.userSignIn(this.state.email, this.state.password);*/
+              this.props.navigation.navigate("DashboardScreen")
+            }}
           >
             <Text style={styles.text4}> Sign In </Text>
           </TouchableOpacity>

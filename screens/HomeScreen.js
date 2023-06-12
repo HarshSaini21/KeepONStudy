@@ -13,7 +13,7 @@ export default class HomeScreen extends React.Component{
                 <Text style={styles.text2}> To Continue To Our App Press This Button </Text>
 
                     <TouchableOpacity style={styles.button} onPress={()=> this.props.navigation.navigate("SignInScreen")}>
-                    <Text style={styles.text3}> Let's Go -> </Text>
+                    <Text style={styles.text3}> Let's Go </Text>
                     </TouchableOpacity>
 
                     <Text style={styles.text4}> CREATED BY HARSHDEEP </Text>
